@@ -11,7 +11,7 @@ app.get('/send', (req, res) => {
     io.sockets.emit('data!', { newData: true })
 })
 
-io.on('connection', () => {
+io.on('connection', (socket) => {
     // setInterval(() => {
     socket.emit('m', { data: 'Connected!' })
     // }, 2000)
