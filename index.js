@@ -8,7 +8,8 @@ app.get('/', (req, res) => {
 
 app.get('/send', (req, res) => {
     console.log('send')
-    io.sockets.emit('data!', { newData: true })
+    io.sockets.emit('m', { newData: true })
+    res.send('OK')
 })
 
 io.on('connection', (socket) => {
