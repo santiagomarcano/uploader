@@ -6,6 +6,8 @@ workflows:
     jobs:
       - node/test
   trigger:
-    steps:
-    - checkout
-    - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP “./deploy_project.sh”
+    jobs:
+      - start
+      steps:
+      - checkout
+      - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP “./deploy_project.sh”
