@@ -1,10 +1,13 @@
 version: 2.1
+jobs:
+  start:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP “./deploy_project.sh”
 workflows:
-  jobs:
-    start:
-      docker:
-        - image: circleci/node:12
-      steps:
-        - checkout
-        - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP “./deploy_project.sh”
+  build:
+    jobs:
+      - start
     
