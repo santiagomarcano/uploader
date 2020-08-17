@@ -1,31 +1,38 @@
-var siofu = require("socketio-file-upload");
+const path = require('path')
+const siofu = require('socketio-file-upload')
 const express = require('express')
-var app = express();
-var io = require('socket.io')(app);
+const app = express()
 
 app.use(siofu.router)
 app.use('/uploads', express.static('uploads'))
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
+    res.sendFile(__dirname + '/index.html')
+})
 
 app.get('/send', (req, res) => {
-    console.log('send')
     io.sockets.emit('m', { newData: true })
     res.send('OK')
 })
 
-io.on('connection', (socket) => {
-    // setInterval(() => {
-    socket.emit('m', { data: 'Connected!' })
-    var uploader = new siofu();
-    uploader.dir = "/uploads";
-    uploader.listen(socket);
-    // }, 2000)
-    console.log('a user connected');
+
+const server = app.listen(process.env.PORT || 3000, () => {
+    console.log(`listening on ${process.env.PORT || 3000}`)
 });
 
-app.listen(process.env.PORT, () => {
-    console.log(`listening on ${process.env.PORT}`);
+var io = require('socket.io')(server);
+
+io.on('connection', (socket) => {
+    socket.emit('m', { data: 'Connected!' })
+    const uploader = new siofu()
+    uploader.dir = path.join(process.cwd(), 'uploads')
+    uploader.listen(socket)
+    uploader.on('start', (data) => {
+        console.log('Start', data.file.name)
+    })
+    uploader.on('saved', (data) => {
+        console.log(`Saved ${data.file.name}`)
+        io.sockets.emit('upload', { name: data.file.name })
+    })
 });
+
