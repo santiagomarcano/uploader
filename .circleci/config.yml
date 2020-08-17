@@ -9,5 +9,5 @@ workflows:
     jobs:
       - start
         steps:
-        - checkout
-        - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP “./deploy_project.sh”
+          - checkout
+          - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP “./deploy_project.sh”
