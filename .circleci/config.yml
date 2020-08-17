@@ -8,6 +8,6 @@ orbs:
 workflows:
   jobs:
     sync 
-      steps:
-          - checkout
-          - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP “./deploy_project.sh”
+    steps:
+        - checkout
+        - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP “./deploy_project.sh”
