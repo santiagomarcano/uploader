@@ -7,7 +7,7 @@ orbs:
 # Orchestrate or schedule a set of jobs
 workflows:
   jobs:
-    sync 
-    steps:
-        - checkout
-        - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP “./deploy_project.sh”
+    sync:
+      steps:
+          - checkout
+          - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP “./deploy_project.sh”
