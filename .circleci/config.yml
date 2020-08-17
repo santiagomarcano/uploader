@@ -5,3 +5,7 @@ workflows:
   node-tests:
     jobs:
       - node/test
+  trigger:
+    steps:
+    - checkout
+    - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP “./deploy_project.sh”
